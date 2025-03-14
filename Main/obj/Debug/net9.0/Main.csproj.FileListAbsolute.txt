@@ -1,0 +1,14 @@
+d:\Programming\Algorithms\Main\bin\Debug\net9.0\Main.exe
+d:\Programming\Algorithms\Main\bin\Debug\net9.0\Main.deps.json
+d:\Programming\Algorithms\Main\bin\Debug\net9.0\Main.runtimeconfig.json
+d:\Programming\Algorithms\Main\bin\Debug\net9.0\Main.dll
+d:\Programming\Algorithms\Main\bin\Debug\net9.0\Main.pdb
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.GeneratedMSBuildEditorConfig.editorconfig
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.AssemblyInfoInputs.cache
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.AssemblyInfo.cs
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.csproj.CoreCompileInputs.cache
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.dll
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\refint\Main.dll
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.pdb
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.genruntimeconfig.cache
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\ref\Main.dll
