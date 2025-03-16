@@ -262,22 +262,26 @@ namespace Main
         {
             Array.Sort(nums);
 
-            int operations = 0;            
+            int operations = 0;
             int left = 0;
             int right = nums.Length - 1;
 
-            while (left < right) {
+            while (left < right)
+            {
                 int sum = nums[left] + nums[right];
 
-                if (sum == k) {
+                if (sum == k)
+                {
                     operations++;
                     left++;
                     right--;
                 }
-                else if (sum > k) {
+                else if (sum > k)
+                {
                     right--;
                 }
-                else if (sum < k) {
+                else if (sum < k)
+                {
                     left++;
                 }
             }
@@ -312,6 +316,31 @@ namespace Main
             // }
 
             // return operations;
+        }
+
+        public double FindMaxAverage(int[] nums, int k)
+        {
+            int maxSum = 0;
+
+            for (int i = 0; i < k; i++) {
+                maxSum += nums[i];
+            }
+            
+            int previousSum = maxSum;
+            int leftMaxSum = 0;
+            int rightMaxSum = k - 1;
+
+            for (int i = leftMaxSum + 1, j = rightMaxSum + 1; j < nums.Length; i++, j++) {
+                int currentSum = previousSum - nums[i - 1] + nums[j];
+                if (currentSum > maxSum) {
+                    maxSum = currentSum;
+                    leftMaxSum = i;
+                    rightMaxSum = j;
+                }
+                previousSum = currentSum;
+            }
+
+            return (double)maxSum / k;
         }
     }
 }
