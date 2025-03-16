@@ -322,17 +322,20 @@ namespace Main
         {
             int maxSum = 0;
 
-            for (int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++)
+            {
                 maxSum += nums[i];
             }
-            
+
             int previousSum = maxSum;
             int leftMaxSum = 0;
             int rightMaxSum = k - 1;
 
-            for (int i = leftMaxSum + 1, j = rightMaxSum + 1; j < nums.Length; i++, j++) {
+            for (int i = leftMaxSum + 1, j = rightMaxSum + 1; j < nums.Length; i++, j++)
+            {
                 int currentSum = previousSum - nums[i - 1] + nums[j];
-                if (currentSum > maxSum) {
+                if (currentSum > maxSum)
+                {
                     maxSum = currentSum;
                     leftMaxSum = i;
                     rightMaxSum = j;
@@ -341,6 +344,39 @@ namespace Main
             }
 
             return (double)maxSum / k;
+        }
+
+        public int MaxVowels(string s, int k)
+        {
+            HashSet<char> vowels = new HashSet<char>() { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+            int countVowels = 0;
+
+            for (int i = 0; i < k; i++) {
+                if (vowels.TryGetValue(s[i], out _)) {
+                    countVowels++;
+                }
+            }
+
+            int maxCountVowels = countVowels;
+
+            for (int i = 1, j = k; j < s.Length; i++, j++) {
+                if (vowels.TryGetValue(s[i - 1], out _)) {
+                    countVowels--;
+                }
+                if (vowels.TryGetValue(s[j], out _)) {
+                    countVowels++;
+                }
+
+                if (countVowels > maxCountVowels) {
+                    maxCountVowels = countVowels;
+                }
+                
+                if (maxCountVowels == k) {
+                    return maxCountVowels;
+                }
+            }
+
+            return maxCountVowels;
         }
     }
 }
