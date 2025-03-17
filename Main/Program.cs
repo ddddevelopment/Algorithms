@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 
 namespace Main
 {
@@ -348,35 +349,124 @@ namespace Main
 
         public int MaxVowels(string s, int k)
         {
-            HashSet<char> vowels = new HashSet<char>() { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+            HashSet<char> vowels = new HashSet<char>() { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
             int countVowels = 0;
 
-            for (int i = 0; i < k; i++) {
-                if (vowels.TryGetValue(s[i], out _)) {
+            for (int i = 0; i < k; i++)
+            {
+                if (vowels.TryGetValue(s[i], out _))
+                {
                     countVowels++;
                 }
             }
 
             int maxCountVowels = countVowels;
 
-            for (int i = 1, j = k; j < s.Length; i++, j++) {
-                if (vowels.TryGetValue(s[i - 1], out _)) {
+            for (int i = 1, j = k; j < s.Length; i++, j++)
+            {
+                if (vowels.TryGetValue(s[i - 1], out _))
+                {
                     countVowels--;
                 }
-                if (vowels.TryGetValue(s[j], out _)) {
+                if (vowels.TryGetValue(s[j], out _))
+                {
                     countVowels++;
                 }
 
-                if (countVowels > maxCountVowels) {
+                if (countVowels > maxCountVowels)
+                {
                     maxCountVowels = countVowels;
                 }
-                
-                if (maxCountVowels == k) {
+
+                if (maxCountVowels == k)
+                {
                     return maxCountVowels;
                 }
             }
 
             return maxCountVowels;
+        }
+
+        public int LargestAltitude(int[] gain)
+        {
+            int[] heights = new int[gain.Length + 1];
+            heights[0] = 0;
+            int max = 0;
+
+            for (int i = 1; i < heights.Length; i++)
+            {
+                heights[i] = heights[i - 1] + gain[i - 1];
+                if (heights[i] > max)
+                {
+                    max = heights[i];
+                }
+            }
+
+            return max;
+        }
+
+        public int PivotIndex(int[] nums)
+        {
+            // int n = nums.Length;
+
+            // int[] leftSum = new int[n];
+            // leftSum[0] = nums[0];
+
+            // int[] rightSum = new int[n];    
+            // rightSum[n - 1] = nums[n - 1];    
+
+            // for (int i = 1, j = n - 2; i < n && j >= 0; i++, j--) {
+            //     leftSum[i] = leftSum[i - 1] + nums[i];
+            //     rightSum[j] = rightSum[j + 1] + nums[j];
+            // }
+
+            // for (int i = 0; i < n; i++) {
+            //     if (leftSum[i] == rightSum[i]) {
+            //         return i;
+            //     }
+            // }
+
+            // return -1;
+
+            int totalSum = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                totalSum += nums[i];
+            }
+
+            int leftSum = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (leftSum == totalSum - leftSum - nums[i])
+                {
+                    return i;
+                }
+                leftSum += nums[i];
+            }
+
+            return -1;
+        }
+
+        public IList<IList<int>> FindDifference(int[] nums1, int[] nums2)
+        {
+            HashSet<int> nums1Set = new HashSet<int>();
+
+            foreach (var num in nums1) {
+                nums1Set.Add(num);
+            }
+
+            HashSet<int> nums2Set = new HashSet<int>();
+
+            foreach (var num in nums2) {
+                nums2Set.Add(num);
+            }
+
+            nums1Set.ExceptWith(nums2);
+            nums2Set.ExceptWith(nums1);
+
+            return new List<int>[2] {nums1Set.ToList(), nums2Set.ToList()};  
         }
     }
 }
