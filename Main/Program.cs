@@ -453,20 +453,82 @@ namespace Main
         {
             HashSet<int> nums1Set = new HashSet<int>();
 
-            foreach (var num in nums1) {
+            foreach (var num in nums1)
+            {
                 nums1Set.Add(num);
             }
 
             HashSet<int> nums2Set = new HashSet<int>();
 
-            foreach (var num in nums2) {
+            foreach (var num in nums2)
+            {
                 nums2Set.Add(num);
             }
 
             nums1Set.ExceptWith(nums2);
             nums2Set.ExceptWith(nums1);
 
-            return new List<int>[2] {nums1Set.ToList(), nums2Set.ToList()};  
+            return new List<int>[2] { nums1Set.ToList(), nums2Set.ToList() };
+        }
+
+        public bool UniqueOccurrences(int[] arr)
+        {
+            Dictionary<int, int> repeatItems = new Dictionary<int, int>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (repeatItems.ContainsKey(arr[i]) == false)
+                {
+                    repeatItems.Add(arr[i], 1);
+                }
+                else
+                {
+                    repeatItems[arr[i]]++;
+                }
+            }
+
+            HashSet<int> repeats = new HashSet<int>();
+
+            foreach (var item in repeatItems)
+            {
+                repeats.Add(item.Value);
+            }
+
+            return repeats.Count == repeatItems.Count();
+        }
+
+        public class ListNode
+        {
+            public int val;
+            public ListNode next;
+            public ListNode(int val = 0, ListNode next = null)
+            {
+                this.val = val;
+                this.next = next;
+            }
+        }
+
+        public ListNode ReverseList(ListNode head)
+        {
+            if (head == null) {
+                return null;
+            }
+
+            ListNode previous = null;
+            ListNode current = head;
+            ListNode next = head.next;
+
+            while (current != null) {
+                current.next = previous;
+                previous = current;
+                current = next;
+
+                if (next != null) {
+                    next = next.next;
+                }   
+            }
+
+            return previous;
         }
     }
 }
