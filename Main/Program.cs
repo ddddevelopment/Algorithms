@@ -8,7 +8,6 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            int result = solution.MaxOperations([3, 1, 3, 4, 3], 6);
         }
     }
 
@@ -510,7 +509,8 @@ namespace Main
 
         public ListNode ReverseList(ListNode head)
         {
-            if (head == null) {
+            if (head == null)
+            {
                 return null;
             }
 
@@ -518,17 +518,194 @@ namespace Main
             ListNode current = head;
             ListNode next = head.next;
 
-            while (current != null) {
+            while (current != null)
+            {
                 current.next = previous;
                 previous = current;
                 current = next;
 
-                if (next != null) {
+                if (next != null)
+                {
                     next = next.next;
-                }   
+                }
             }
 
             return previous;
+        }
+
+        public class TreeNode
+        {
+            public int val;
+            public TreeNode left;
+            public TreeNode right;
+            public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+            {
+                this.val = val;
+                this.left = left;
+                this.right = right;
+            }
+        }
+
+        public bool LeafSimilar(TreeNode root1, TreeNode root2)
+        {
+            if (root1 == null || root2 == null)
+            {
+                return false;
+            }
+
+            List<int> leaf1 = new List<int>();
+            List<int> leaf2 = new List<int>();
+            FindLeave(root1, leaf1);
+            FindLeave(root2, leaf2);
+
+            return leaf1.SequenceEqual(leaf2);
+        }
+
+        private void FindLeave(TreeNode root, List<int> leafValueSequence)
+        {
+            if (root.left == null && root.right == null)
+            {
+                leafValueSequence.Add(root.val);
+            }
+            else
+            {
+                if (root.left != null)
+                {
+                    FindLeave(root.left, leafValueSequence);
+                }
+
+                if (root.right != null)
+                {
+                    FindLeave(root.right, leafValueSequence);
+                }
+            }
+        }
+
+        public int GoodNodes(TreeNode root)
+        {
+            int count = 1;
+            CheckGood(root.val, root.left, ref count);
+            CheckGood(root.val, root.right, ref count);
+
+            return count;
+        }
+
+        private void CheckGood(int maxVal, TreeNode root, ref int count)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.val >= maxVal)
+            {
+                maxVal = root.val;
+                count++;
+            }
+
+            CheckGood(maxVal, root.left, ref count);
+            CheckGood(maxVal, root.right, ref count);
+        }
+
+        public TreeNode SearchBST(TreeNode root, int val)
+        {
+            if (root == null || root.val == val)
+            {
+                return root;
+            }
+
+            else
+            {
+                if (root.val > val)
+                {
+                    return SearchBST(root.left, val);
+                }
+                else
+                {
+                    return SearchBST(root.right, val);
+                }
+            }
+        }
+
+        public TreeNode DeleteNode(TreeNode root, int key)
+        {
+            TreeNode deletedRoot = DeleteNodeHelper(ref root, key);
+
+            if (deletedRoot == null)
+            {
+                return root;
+            }
+
+            return root;
+        }
+
+        private TreeNode DeleteNodeHelper(ref TreeNode root, int key)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            if (key == root.val)
+            {
+                if (root.left == null && root.right == null)
+                {
+                    root = null;
+                }
+
+                else
+                {
+                    if (root.left == null)
+                    {
+                        root = root.right;
+                    }
+                    else if (root.right == null)
+                    {
+                        root = root.left;
+                    }
+                    else
+                    {
+                        TreeNode left = root.left;
+                        root = root.right;
+                        InsertNode(ref root, left);
+                    }
+                }
+
+                return root;
+            }
+
+            else
+            {
+                if (key < root.val)
+                {
+                    return DeleteNodeHelper(ref root.left, key);
+                }
+                else
+                {
+                    return DeleteNodeHelper(ref root.right, key);
+                }
+            }
+        }
+
+        private void InsertNode(ref TreeNode root, TreeNode insert)
+        {
+            if (root == null)
+            {
+                root = insert;
+                return;
+            }
+
+            else
+            {
+                if (insert.val < root.val)
+                {
+                    InsertNode(ref root.left, insert);
+                }
+                else
+                {
+                    InsertNode(ref root.right, insert);
+                }
+            }
         }
     }
 }
