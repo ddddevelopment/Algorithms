@@ -707,5 +707,60 @@ namespace Main
                 }
             }
         }
+
+        public int Tribonacci(int n)
+        {
+            if (n == 1)
+            {
+                return 1;
+            }
+
+            int nDiv3 = 0;
+            int nDiv2 = 0;
+            int nDiv1 = 1;
+
+            int currentNum = 0;
+            for (int i = 2; i <= n; i++)
+            {
+                currentNum = nDiv3 + nDiv2 + nDiv1;
+                nDiv3 = nDiv2;
+                nDiv2 = nDiv1;
+                nDiv1 = currentNum;
+            }
+
+            return currentNum;
+        }
+
+        public int MinCostClimbingStairs(int[] cost)
+        {
+            return Math.Min(MinCostHelper(cost, cost.Length - 1), MinCostHelper(cost, cost.Length - 2));
+        }
+
+        private int MinCostHelper(int[] cost, int index)
+        {
+            if (index == 0)
+            {
+                return cost[0];
+            }
+            if (index == 1)
+            {
+                return cost[1];
+            }
+
+            int minCost = cost[index] + Math.Min(MinCostHelper(cost, index - 1), MinCostHelper(cost, index - 2));
+
+            return minCost;
+        }
+
+        public int SingleNumber(int[] nums)
+        {
+            int result = 0;
+
+            for (int i = 0; i < nums.Length; i++) {
+                result ^= nums[i];
+            }
+
+            return result;
+        }
     }
 }
