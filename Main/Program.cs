@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Main
 {
@@ -8,6 +10,7 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
+            var result = solution.DecodeString("3[a]2[bc]");
         }
     }
 
@@ -756,11 +759,118 @@ namespace Main
         {
             int result = 0;
 
-            for (int i = 0; i < nums.Length; i++) {
+            for (int i = 0; i < nums.Length; i++)
+            {
                 result ^= nums[i];
             }
 
             return result;
+        }
+
+        public string RemoveStars(string s)
+        {
+            int count = 0;
+            Stack<char> newS = new Stack<char>();
+
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (s[i] == '*')
+                {
+                    count++;
+                    continue;
+                }
+
+                if (count == 0)
+                {
+                    newS.Push(s[i]);
+                }
+                else
+                {
+                    count--;
+                    continue;
+                }
+            }
+
+            StringBuilder result = new StringBuilder();
+            int n = newS.Count();
+            for (int i = 0; i < n; i++)
+            {
+                result.Append(newS.Pop());
+            }
+
+            return result.ToString();
+        }
+
+        public int[] AsteroidCollision(int[] asteroids)
+        {
+            Stack<int> stack = new Stack<int>();
+
+            for (int i = 0; i < asteroids.Length; i++)
+            {
+                if (asteroids[i] > 0 || stack.Count() == 0)
+                {
+                    stack.Push(asteroids[i]);
+                }
+                else
+                {
+                    while (stack.Count() > 0 && stack.Peek() > 0 && Math.Abs(asteroids[i]) > stack.Peek())
+                    {
+                        stack.Pop();
+                    }
+
+                    if (stack.Count() > 0 && Math.Abs(asteroids[i]) == stack.Peek())
+                    {
+                        stack.Pop();
+                    }
+                    else if (stack.Count() == 0 || stack.Peek() < 0)
+                    {
+                        stack.Push(asteroids[i]);
+                    }
+                }
+            }
+
+            int[] result = new int[stack.Count()];
+
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                result[i] = stack.Pop();
+            }
+
+            return result;
+        }
+
+        public string DecodeString(string s)
+        {
+            Stack<int> digits = new Stack<int>();
+            Stack<StringBuilder> result = new Stack<StringBuilder>();
+            result.Push(new StringBuilder());
+            int num = 0;
+
+            for (int i = 0; i < s.Length; i++) {
+                if (char.IsDigit(s[i])) {
+                    num = num * 10 + (s[i] - '0');
+                }
+                else {
+                    if (s[i] == '[') {
+                        digits.Push(num);
+                        num = 0;
+                        result.Push(new StringBuilder());
+                    }
+                    else if (char.IsLetter(s[i])) {
+                        result.Peek().Append(s[i]);
+                    }
+                    else if (s[i] == ']') {
+                        int count = digits.Pop();
+                        StringBuilder appendString = result.Pop();
+                        while (count > 0) {
+                            result.Peek().Append(appendString);
+                            count--;
+                        }
+                    }
+                }
+            }
+            
+            return result.Pop().ToString();
         }
     }
 }

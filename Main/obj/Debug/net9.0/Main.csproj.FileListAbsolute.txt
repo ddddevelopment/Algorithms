@@ -12,3 +12,4 @@ d:\Programming\Algorithms\Main\obj\Debug\net9.0\refint\Main.dll
 d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.pdb
 d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.genruntimeconfig.cache
 d:\Programming\Algorithms\Main\obj\Debug\net9.0\ref\Main.dll
+d:\Programming\Algorithms\Main\obj\Debug\net9.0\Main.sourcelink.json

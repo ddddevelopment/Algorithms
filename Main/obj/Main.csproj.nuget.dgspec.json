@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programming\\Algorithms\\Main\\Main.csproj": {}
+    "d:\\Programming\\Algorithms\\Main\\Main.csproj": {}
   },
   "projects": {
-    "D:\\Programming\\Algorithms\\Main\\Main.csproj": {
+    "d:\\Programming\\Algorithms\\Main\\Main.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programming\\Algorithms\\Main\\Main.csproj",
+        "projectUniqueName": "d:\\Programming\\Algorithms\\Main\\Main.csproj",
         "projectName": "Main",
-        "projectPath": "D:\\Programming\\Algorithms\\Main\\Main.csproj",
+        "projectPath": "d:\\Programming\\Algorithms\\Main\\Main.csproj",
         "packagesPath": "C:\\Users\\Dmitrii\\.nuget\\packages\\",
-        "outputPath": "D:\\Programming\\Algorithms\\Main\\obj\\",
+        "outputPath": "d:\\Programming\\Algorithms\\Main\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dmitrii\\AppData\\Roaming\\NuGet\\NuGet.Config"
