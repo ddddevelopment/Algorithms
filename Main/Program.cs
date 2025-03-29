@@ -10,7 +10,7 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            var result = solution.DecodeString("3[a]2[bc]");
+            var result = solution.IncreasingTriplet([6,7,1,2]);
         }
     }
 
@@ -157,32 +157,32 @@ namespace Main
             return string.Join(" ", words);
         }
 
-        public int[] ProductExceptSelf(int[] nums)
-        {
-            int[] prefixes = new int[nums.Length];
-            int[] suffixes = new int[nums.Length];
-            prefixes[0] = 1;
-            suffixes[nums.Length - 1] = 1;
+        // public int[] ProductExceptSelf(int[] nums)
+        // {
+        //     int[] prefixes = new int[nums.Length];
+        //     int[] suffixes = new int[nums.Length];
+        //     prefixes[0] = 1;
+        //     suffixes[nums.Length - 1] = 1;
 
-            for (int i = 1; i < nums.Length; i++)
-            {
-                prefixes[i] = prefixes[i - 1] * nums[i - 1];
-            }
+        //     for (int i = 1; i < nums.Length; i++)
+        //     {
+        //         prefixes[i] = prefixes[i - 1] * nums[i - 1];
+        //     }
 
-            for (int i = nums.Length - 2; i >= 0; i--)
-            {
-                suffixes[i] = suffixes[i + 1] * nums[i + 1];
-            }
+        //     for (int i = nums.Length - 2; i >= 0; i--)
+        //     {
+        //         suffixes[i] = suffixes[i + 1] * nums[i + 1];
+        //     }
 
-            int[] answer = new int[nums.Length];
+        //     int[] answer = new int[nums.Length];
 
-            for (int i = 0; i < answer.Length; i++)
-            {
-                answer[i] = prefixes[i] * suffixes[i];
-            }
+        //     for (int i = 0; i < answer.Length; i++)
+        //     {
+        //         answer[i] = prefixes[i] * suffixes[i];
+        //     }
 
-            return answer;
-        }
+        //     return answer;
+        // }
 
         public void MoveZeroes(int[] nums)
         {
@@ -846,31 +846,79 @@ namespace Main
             result.Push(new StringBuilder());
             int num = 0;
 
-            for (int i = 0; i < s.Length; i++) {
-                if (char.IsDigit(s[i])) {
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (char.IsDigit(s[i]))
+                {
                     num = num * 10 + (s[i] - '0');
                 }
-                else {
-                    if (s[i] == '[') {
+                else
+                {
+                    if (s[i] == '[')
+                    {
                         digits.Push(num);
                         num = 0;
                         result.Push(new StringBuilder());
                     }
-                    else if (char.IsLetter(s[i])) {
+                    else if (char.IsLetter(s[i]))
+                    {
                         result.Peek().Append(s[i]);
                     }
-                    else if (s[i] == ']') {
+                    else if (s[i] == ']')
+                    {
                         int count = digits.Pop();
                         StringBuilder appendString = result.Pop();
-                        while (count > 0) {
+                        while (count > 0)
+                        {
                             result.Peek().Append(appendString);
                             count--;
                         }
                     }
                 }
             }
-            
+
             return result.Pop().ToString();
+        }
+
+        public int[] ProductExceptSelf(int[] nums)
+        {
+            int n = nums.Length;
+            int[] ans = new int[n];
+            ans[0] = 1;
+
+            for (int i = 1; i < n; i++)
+            {
+                ans[i] = ans[i - 1] * nums[i - 1];
+            }
+
+            int prevSuffix = 1;
+            for (int i = n - 2; i >= 0; i--)
+            {
+                prevSuffix *= nums[i + 1];
+                ans[i] *= prevSuffix;
+            }
+
+            return ans;
+        }
+
+        public bool IncreasingTriplet(int[] nums)
+        {
+            int min1 = int.MaxValue;
+            int min2 = int.MaxValue;
+
+            for (int i = 0; i < nums.Length; i++) {
+                if (nums[i] < min1) {
+                    min1 = nums[i];
+                }
+                else if (nums[i] < min2) {
+                    min2 = nums[i];
+                }
+                else {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
