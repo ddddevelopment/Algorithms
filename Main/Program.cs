@@ -10,7 +10,7 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            var result = solution.IncreasingTriplet([6,7,1,2]);
+            var result = solution.Compress(['a']);
         }
     }
 
@@ -906,19 +906,64 @@ namespace Main
             int min1 = int.MaxValue;
             int min2 = int.MaxValue;
 
-            for (int i = 0; i < nums.Length; i++) {
-                if (nums[i] < min1) {
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < min1)
+                {
                     min1 = nums[i];
                 }
-                else if (nums[i] < min2) {
+                else if (nums[i] < min2)
+                {
                     min2 = nums[i];
                 }
-                else {
+                else
+                {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        public int Compress(char[] chars)
+        {
+            char previousChar = chars[0];
+            int count = 1;
+            int index = -1;
+
+            for (int i = 1; i < chars.Length; i++)
+            {
+                if (chars[i] == previousChar)
+                {
+                    count++;
+                }
+                else
+                {
+                    chars[++index] = previousChar;
+                    if (count > 1)
+                    {
+                        string countStr = count.ToString();
+                        for (int j = 0; j < countStr.Length; j++)
+                        {
+                            chars[++index] = countStr[j];
+                        }
+                    }
+                    count = 1;
+                    previousChar = chars[i];
+                }
+            }
+
+            chars[++index] = previousChar;
+            if (count > 1)
+            {
+                string countStr1 = count.ToString();
+                for (int j = 0; j < countStr1.Length; j++)
+                {
+                    chars[++index] = countStr1[j];
+                }
+            }
+
+            return ++index;
         }
     }
 }
