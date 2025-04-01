@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            var result = solution.Compress(['a']);
+            var result = solution.EqualPairs([[3, 1, 2, 2], [1, 4, 4, 5], [2, 4, 2, 2], [2, 4, 2, 2]]);
         }
     }
 
@@ -965,5 +966,228 @@ namespace Main
 
             return ++index;
         }
+
+        public bool CloseStrings(string word1, string word2)
+        {
+            // if (word1.Length != word2.Length)
+            // {
+            //     return false;
+            // }
+
+            // HashSet<char> chars1 = new HashSet<char>(word1);
+            // HashSet<char> chars2 = new HashSet<char>(word2);
+
+            // if (chars1.SetEquals(chars2) == false)
+            // {
+            //     return false;
+            // }
+            // else
+            // {
+            //     Dictionary<char, int> repeats1 = new Dictionary<char, int>();
+            //     Dictionary<char, int> repeats2 = new Dictionary<char, int>();
+
+            //     for (int i = 0; i < word1.Length; i++)
+            //     {
+            //         if (repeats1.ContainsKey(word1[i]))
+            //         {
+            //             repeats1[word1[i]]++;
+            //         }
+            //         else
+            //         {
+            //             repeats1.Add(word1[i], 1);
+            //         }
+
+            //         if (repeats2.ContainsKey(word2[i]))
+            //         {
+            //             repeats2[word2[i]]++;
+            //         }
+            //         else
+            //         {
+            //             repeats2.Add(word2[i], 1);
+            //         }
+            //     }
+
+            //     List<int> counts1 = new List<int>(repeats1.Values);
+            //     List<int> counts2 = new List<int>(repeats2.Values);
+
+            //     for (int i = 0; i < counts1.Count(); i++) {
+            //         if (counts2.Contains(counts1[i])) {
+            //             counts1.Remove(counts1[i]);
+            //             counts2.Remove(counts2[i]);
+            //         }
+            //         else {
+            //             return false;
+            //         }
+            //     }
+
+            //     return true;
+
+
+            int[] repeats1 = new int[26];
+            int[] repeats2 = new int[26];
+
+            foreach (char symbol in word1)
+            {
+                repeats1[symbol - 'a']++;
+            }
+
+            foreach (char symbol in word2)
+            {
+                repeats2[symbol - 'a']++;
+            }
+
+            for (int i = 0; i < 26; i++)
+            {
+                if ((repeats1[i] == 0 && repeats2[i] != 0) || (repeats1[i] != 0 && repeats2[i] == 0))
+                {
+                    return false;
+                }
+            }
+
+            Array.Sort(repeats1);
+            Array.Sort(repeats2);
+
+            for (int i = 0; i < 26; i++)
+            {
+                if (repeats1[i] != repeats2[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public int EqualPairs(int[][] grid)
+        {
+            // int n = grid.Length;
+
+            // Dictionary<int, List<int[]>> rows = new Dictionary<int, List<int[]>>();
+
+            // for (int i = 0; i < n; i++)
+            // {
+            //     if (rows.ContainsKey(grid[i][0]))
+            //     {
+            //         rows[grid[i][0]].Add(grid[i]);
+            //     }
+            //     else
+            //     {
+            //         rows.Add(grid[i][0], new List<int[]>() { grid[i] });
+            //     }
+            // }
+
+            // int result = 0;
+            // for (int i = 0; i < n; i++)
+            // {
+            //     if (rows.ContainsKey(grid[0][i]))
+            //     {
+            //         List<int[]> foundList = rows[grid[0][i]];
+            //         foreach (var row in foundList)
+            //         {
+            //             bool areEquals = true;
+            //             for (int j = 1; j < n; j++)
+            //             {
+            //                 if (row[j] != grid[j][i])
+            //                 {
+            //                     areEquals = false;
+            //                     break;
+            //                 }
+            //             }
+            //             if (areEquals)
+            //             {
+            //                 result++;
+            //             }
+            //         }
+            //     }
+            // }
+
+            // return result;
+
+
+
+            // Dictionary<int[], int> rows = new Dictionary<int[], int>(new ArrayComparer<int>());
+
+            // foreach(var row in grid) {
+            //     if (rows.ContainsKey(row)) {
+            //         rows[row]++;
+            //     }
+            //     else {
+            //         rows.Add(row, 1);
+            //     }
+            // }
+
+            // int result = 0;
+
+            // for (int columnIndex = 0; columnIndex < grid.Length; columnIndex++) {
+            //     int[] currentColumn = new int[grid.Length];
+            //     for (int rowIndex = 0; rowIndex < grid.Length; rowIndex++) {
+            //         currentColumn[rowIndex] = grid[rowIndex][columnIndex];
+            //     }
+
+            //     if (rows.ContainsKey(currentColumn)) {
+            //         result += rows[currentColumn];
+            //     }
+            // }
+
+            // return result;
+
+            int n = grid.Length;
+            int[] columnHashes = new int[n];
+            int[] rowsHashes = new int[n];
+            int multiplier = 17;
+            int result = 0;
+            for (int i = 0; i < n; i++)
+            {
+                int columnHash = 19;
+                int rowHash = 19;
+                for (int j = 0; j < n; j++)
+                {
+                    unchecked
+                    {
+                        rowHash = rowHash * multiplier + grid[i][j];
+                        columnHash = columnHash * multiplier + grid[j][i];
+                    }
+                }
+                columnHashes[i] = columnHash;
+                rowsHashes[i] = rowHash;
+            }
+
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (rowsHashes[i] == columnHashes[j]) {
+                        result++;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        // private class ArrayComparer<T> : IEqualityComparer<T[]>
+        // {
+        //     public bool Equals(T[]? x, T[]? y)
+        //     {
+        //         if (x == null || y == null) {
+        //             return x == y;
+        //         }
+        //         return x.SequenceEqual(y);
+        //     }
+
+        //     public int GetHashCode(T[] obj)
+        //     {
+        //         if (obj == null) {
+        //             return 0;
+        //         }
+        //         unchecked
+        //         {
+        //             int hash = 17;
+        //             foreach (var item in obj) {
+        //                 hash = hash * 23 + (item?.GetHashCode() ?? 0);
+        //             }
+        //             return hash;
+        //         }
+        //     }
+        // }
     }
 }
+
