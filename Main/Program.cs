@@ -1249,7 +1249,8 @@ namespace Main
             ListNode even = head.next;
             ListNode evenStart = even;
 
-            while (odd.next != null && even.next != null) {
+            while (odd.next != null && even.next != null)
+            {
                 odd.next = odd.next.next;
                 even.next = even.next.next;
 
@@ -1315,6 +1316,15 @@ namespace Main
             }
 
             return prev;
+        }
+
+        public int MaxDepth(TreeNode root)
+        {
+            if (root == null) {
+                return 0;
+            }
+
+            return 1 + Math.Max(MaxDepth(root.left), MaxDepth(root.right));
         }
     }
 }
