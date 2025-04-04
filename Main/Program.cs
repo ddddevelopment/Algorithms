@@ -11,7 +11,11 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            var result = solution.EqualPairs([[3, 1, 2, 2], [1, 4, 4, 5], [2, 4, 2, 2], [2, 4, 2, 2]]);
+            var one = new Solution.ListNode(1, null);
+            var two = new Solution.ListNode(2, one);
+            var four = new Solution.ListNode(4, two);
+            var five = new Solution.ListNode(5, four);
+            var result = solution.PairSum(five);
         }
     }
 
@@ -1152,9 +1156,12 @@ namespace Main
                 rowsHashes[i] = rowHash;
             }
 
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (rowsHashes[i] == columnHashes[j]) {
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (rowsHashes[i] == columnHashes[j])
+                    {
                         result++;
                     }
                 }
@@ -1188,6 +1195,127 @@ namespace Main
         //         }
         //     }
         // }
+
+        public ListNode DeleteMiddle(ListNode head)
+        {
+            // if (head == null || head.next == null) {
+            //     return null;
+            // }
+
+            // ListNode current = head;
+
+            // int count = 0;
+            // while (current != null) {
+            //     count++;
+            //     current = current.next;
+            // }
+
+            // int number = 0;
+            // int target = count / 2;
+            // current = head;
+            // while (current != null) {
+            //     number++;
+            //     if (number == target) {
+            //         current.next = current.next.next;
+            //         return head;
+            //     }
+            //     current = current.next;
+            // }
+
+            // return head;
+
+            if (head == null || head.next == null)
+            {
+                return null;
+            }
+
+            ListNode slow = head;
+            ListNode fast = head.next.next;
+
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            slow.next = slow.next.next;
+
+            return head;
+        }
+
+        public ListNode OddEvenList(ListNode head)
+        {
+            ListNode odd = head;
+            ListNode even = head.next;
+            ListNode evenStart = even;
+
+            while (odd.next != null && even.next != null) {
+                odd.next = odd.next.next;
+                even.next = even.next.next;
+
+                odd = odd.next;
+                even = even.next;
+            }
+
+            odd.next = evenStart;
+
+            return head;
+        }
+
+        public int PairSum(ListNode head)
+        {
+            ListNode first = head;
+            ListNode middle = Mid(head);
+            ListNode second = Reverse(middle);
+
+            int max = 0;
+            while (first != null && second != null)
+            {
+                int sum = first.val + second.val;
+                if (sum > max)
+                {
+                    max = sum;
+                }
+                first = first.next;
+                second = second.next;
+            }
+
+            return max;
+        }
+
+        private ListNode Mid(ListNode head)
+        {
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while (fast != null && fast.next != null)
+            {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+
+            return slow;
+        }
+
+        private ListNode Reverse(ListNode head)
+        {
+            ListNode prev = null;
+            ListNode current = head;
+            ListNode up = current.next;
+
+            while (current != null)
+            {
+                current.next = prev;
+                prev = current;
+                current = up;
+                if (up != null)
+                {
+                    up = up.next;
+                }
+            }
+
+            return prev;
+        }
     }
 }
 
