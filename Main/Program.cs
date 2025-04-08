@@ -11,11 +11,7 @@ namespace Main
         static void Main(string[] args)
         {
             Solution solution = new Solution();
-            var one = new Solution.ListNode(1, null);
-            var two = new Solution.ListNode(2, one);
-            var four = new Solution.ListNode(4, two);
-            var five = new Solution.ListNode(5, four);
-            var result = solution.PairSum(five);
+            var result = solution.MinimumOperations([1,2,3,4,2,3,3,5,7]);
         }
     }
 
@@ -1320,11 +1316,60 @@ namespace Main
 
         public int MaxDepth(TreeNode root)
         {
-            if (root == null) {
+            if (root == null)
+            {
                 return 0;
             }
 
             return 1 + Math.Max(MaxDepth(root.left), MaxDepth(root.right));
+        }
+
+        public int MinimumOperations(int[] nums)
+        {   
+            // Dictionary<int, int> repeats = new Dictionary<int, int>();
+
+            // for (int i = 0; i < nums.Length; i++) {
+            //     if (repeats.ContainsKey(nums[i])) {
+            //         repeats[nums[i]]++;
+            //     }
+            //     else {
+            //         repeats.Add(nums[i], 1);
+            //     }
+            // }
+
+            // for (int i = 0; i < nums.Length; i++) {
+            //     if (i % 3 == 0) {
+            //         if (repeats.Count() == nums.Length - i) {
+            //             return i / 3;
+            //         }
+            //     }
+
+            //     if (repeats[nums[i]] > 1) {
+            //         repeats[nums[i]]--;
+            //     }
+            //     else {
+            //         repeats.Remove(nums[i]);
+            //     }
+            // }
+
+            // if (nums.Length % 3 == 0) {
+            //     return nums.Length / 3;
+            // }
+            // else {
+            //     return nums.Length / 3 + 1;
+            // }
+
+            bool[] seen = new bool[101];
+            
+            for (int i = nums.Length - 1; i >= 0; i--) {
+                if (seen[nums[i]] == true) {
+                    return i / 3 + 1;
+                }
+
+                seen[nums[i]] = true;
+            }
+
+            return 0;
         }
     }
 }
